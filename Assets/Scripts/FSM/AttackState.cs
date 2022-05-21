@@ -1,34 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class AttackState : MonoBehaviour, IFSMState
 {
-    //Public Variables
-    public FSMStateType StateName {get {return FSMStateType.Attack; } }
-    public ParticleSystem weaponPS = null;
+    public FSMStateType StateName { get { return FSMStateType.Attack; } }
+    public ParticleSystem WeaponPS = null;
 
-    //Private Variables
-    private Transform thisPlayer = null;
+    private Transform ThisPlayer = null;
+
+    void Awake()
+    {
+        ThisPlayer = GameObject.FindWithTag("Player").GetComponent<Transform>();
+    }
 
     public void OnEnter()
     {
-        weaponPS.Play();
+        WeaponPS.Play();
     }
 
     public void OnExit()
     {
-        weaponPS.Stop();
+        WeaponPS.Stop();
     }
 
     public void DoAction()
     {
-        Vector3 dir = (thisPlayer.position - transform.position).normalized;
+        Vector3 Dir = (ThisPlayer.position - transform.position).normalized;
+        Dir.y = 0;
+        transform.rotation = Quaternion.LookRotation(Dir, Vector3.up);
     }
 
     public FSMStateType ShouldTransitionToState()
     {
         return FSMStateType.Attack;
     }
-
 }

@@ -1,46 +1,44 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(NavMeshAgent))]
 public class ChaseState : MonoBehaviour, IFSMState
 {
-    //Public Variables
     public FSMStateType StateName { get { return FSMStateType.Chase; } }
-    public float minChaseDistance = 2.0f;
+    public float MinChaseDistance = 2.0f;
 
-    //Private Variables
-    private Transform player = null;
-    private NavMeshAgent thisAgent = null;
+    private Transform Player = null;
+    private NavMeshAgent ThisAgent = null;
 
     void Awake()
     {
-        player = GameObject.FindWithTag("Player").GetComponent<Transform>();
-        thisAgent.GetComponent<NavMeshAgent>();
+        Player = GameObject.FindWithTag("Player").GetComponent<Transform>();
+        ThisAgent = GetComponent<NavMeshAgent>();
     }
 
     public void OnEnter()
     {
-        thisAgent.isStopped = false;
+        ThisAgent.isStopped = false;
     }
 
     public void OnExit()
     {
-        thisAgent.isStopped = true;
+        ThisAgent.isStopped = true;
     }
 
     public void DoAction()
     {
-        thisAgent.SetDestination(player.position);
+        ThisAgent.SetDestination(Player.position);
     }
 
     public FSMStateType ShouldTransitionToState()
     {
-        float distanceToDest = Vector3.Distance(transform.position, player.position);
-        if(distanceToDest <= minChaseDistance)
+        float DistancetoDest = Vector3.Distance(transform.position, Player.position);
+        if (DistancetoDest <= MinChaseDistance)
         {
             return FSMStateType.Attack;
         }
+
         return FSMStateType.Chase;
     }
 }

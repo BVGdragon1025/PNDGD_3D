@@ -8,11 +8,11 @@ public class Health : MonoBehaviour
     //Public Variables
     public UnityEvent onHealthChanged;
     public string spawnPoolTag = string.Empty;
-    public float HealthPoints { 
-        get { return HealthPoints; }
-        set { HealthPoints = value; 
+    public float HealthPoints {
+        get {return healthPoints; }
+        set { healthPoints = value; 
         onHealthChanged?.Invoke();
-        if(HealthPoints <= 0f)
+        if(healthPoints <= 0f)
             {
                 Die();
             }
@@ -23,6 +23,7 @@ public class Health : MonoBehaviour
     //Private Variables
     [SerializeField] private float healthPoints = 100f;
     private ObjectPool pool = null;
+
 
     void Awake()
     {
@@ -35,7 +36,7 @@ public class Health : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             HealthPoints = 0;
         }
@@ -46,7 +47,7 @@ public class Health : MonoBehaviour
         if(pool != null)
         {
             pool.DeSpawn(transform);
-            healthPoints = 100f;
+            HealthPoints = 100f;
         }
     }
 
